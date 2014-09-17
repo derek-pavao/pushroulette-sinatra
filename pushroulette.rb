@@ -11,7 +11,10 @@ get '/hi' do
 end
 
 post '/github/payload' do
-    playClip(:deleteAfterPlay => true)
+    request.body.rewind  # in case someone already read it
+    data = JSON.parse request.body.read
+    puts data
+    playClip(nil, true)
 end
 
 post '/store/clips' do
@@ -23,7 +26,7 @@ def playClip(clip, deleteAfterPlay=false)
     songs = 0;
     while !played do
         file = clip.nil? ? Dir.glob("/etc/pushroulette/library/pushroulette_*.wav").sample : clip
-        played = system "ffplay -autoexit -nodisp #{file}" || !clip.nil?
+        played = system "avplay -autoexit -nodisp #{file}" || !clip.nil?
         
         if deleteAfterPlay
             File.delete(file)
@@ -45,7 +48,7 @@ def downloadClips(num=1)
                 open('/etc/pushroulette/library/' + track.title + '.' + track.original_format, 'wb') do |file|
                     file << open(track.download_url + '?client_id=cdbefc208d1db7a07c5af0e27e10b403', :allow_redirections => :all).read
                     start = [*0..((track.duration / 1000) - 4)].sample
-                    sliceCreated = system "ffmpeg -ss #{start} -t 5 -i \"#{file.path}\" /etc/pushroulette/library/pushroulette_#{SecureRandom.uuid}.wav"
+                    sliceCreated = system "avconv -ss #{start} -t 5 -i \"#{file.path}\" /etc/pushroulette/library/pushroulette_#{SecureRandom.uuid}.wav"
                     File.delete(file)
 
                     if !sliceCreated
