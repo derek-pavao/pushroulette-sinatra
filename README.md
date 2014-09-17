@@ -25,14 +25,14 @@ Install necessary gems:
 gem install soundcloud sinatra open_uri_redirections
 ```
 
-Requires [ffmpeg](http://www.ffmpeg.org/) for encoding and decoding all non-wav files (which work natively)
+Requires [libav](https://libav.org/) for encoding and decoding all non-wav files (which work natively)
 
-## Getting ffmpeg set up
+## Getting libav set up
 
 Mac (using [homebrew](http://brew.sh)):
 
 ```bash
-brew install ffmpeg --with-libvorbis --with-ffplay --with-theora
+brew install libav --with-libvorbis --with-sdl --with-theora
 ```
 
 Linux (using aptitude):
