@@ -1,24 +1,6 @@
-#!/usr/bin/ruby
-require 'sinatra/base'
+module Clips
 
-class Pushroulette < Sinatra::Base
-  @client = SoundCloud.new(:client_id => 'cdbefc208d1db7a07c5af0e27e10b403')
-
-  get '/hi' do
-    "Hello World!"
-  end
-
-  post '/github/payload' do
-    request.body.rewind  # in case someone already read it
-    data = JSON.parse request.body.read
-    puts data
-    playClip(nil, true)
-  end
-
-  post '/store/clips' do
-    puts params[:num]
-    params[:num].nil? ? downloadClips : downloadClips(params[:num].to_i)
-  end
+  $client = SoundCloud.new(:client_id => 'cdbefc208d1db7a07c5af0e27e10b403')
 
   def playClip(clip, deleteAfterPlay=false)
     played = false
@@ -42,7 +24,6 @@ class Pushroulette < Sinatra::Base
   def downloadClips(num=1)
     i = 0
     while i < num do
-
       tracks = $client.get('/tracks', :q => 'downloadable', :limit => 50, :offset => [*0..8001].sample)
       for track in tracks
         if track.original_content_size < 10000000 and !track.download_url.nil?
