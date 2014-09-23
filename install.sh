@@ -34,6 +34,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     git clone https://github.com/Astonish-Results/pushroulette-sinatra.git ./
 
     if ! gem install bundler &> /dev/null; then
+        echo "We need admin permissions to install the bundler ruby gem:"
         sudo gem install bundler
     fi
     bundle install
