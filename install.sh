@@ -8,7 +8,7 @@ check_dependencies() {
             echo "================================================"
             ((DEPS++))
         fi
-    elif [[ "$1" == "linux-gnu" }}; then
+    elif [[ "$1" == "linux-gnu" ]]; then
         if ! which apt-get > /dev/null; then
             echo "================================================"
             echo "Pushroulette requires 'apt-get' to be installed"
