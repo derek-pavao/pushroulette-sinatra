@@ -45,7 +45,7 @@ check_dependencies() {
 if [[ "$OSTYPE" == "darwin"* ]]; then
     OS="MAC"
 
-    check_dependencies("$OSTYPE")
+    check_dependencies "$OSTYPE"
 
     git clone https://github.com/Astonish-Results/pushroulette-sinatra.git ./
 
@@ -60,7 +60,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 elif [[ "$OSTYPE" == "linux-gnu" ]]; then
     OS="LINUX"
 
-    check_dependencies("$OSTYPE")
+    check_dependencies "$OSTYPE"
 
     echo "$OS"
     exit
