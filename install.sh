@@ -1,15 +1,24 @@
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    OS="MAC"
+check_dependencies() {
     DEPS=0
-
-    if ! which brew > /dev/null; then
-        echo "================================================"
-        echo "Pushroulette requires 'Homebrew' to be installed"
-        echo 'Homebrew can be insatlled with ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"'
-        echo "================================================"
-        ((DEPS++))
+    if [[ "$1" == "darwin"* ]]; then
+        if ! which brew > /dev/null; then
+            echo "================================================"
+            echo "Pushroulette requires 'Homebrew' to be installed"
+            echo 'Homebrew can be insatlled with ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"'
+            echo "================================================"
+            ((DEPS++))
+        fi
+    elif [[ "$1" == "linux-gnu" }}; then
+        if ! which apt-get > /dev/null; then
+            echo "================================================"
+            echo "Pushroulette requires 'apt-get' to be installed"
+            echo "================================================"
+        fi
+    else
+        echo "PUSH ROULETTE DOES NOT SUPPORT YOUR OPERATING SYSTEM"
+        exit
     fi
+
     if ! which git > /dev/null; then
         echo "================================================"
         echo "Pushroulette requires 'git' to be installed"
@@ -30,6 +39,13 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
         echo ""
         exit
     fi
+}
+
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    OS="MAC"
+
+    check_dependencies("$OSTYPE")
 
     git clone https://github.com/Astonish-Results/pushroulette-sinatra.git ./
 
@@ -43,6 +59,11 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 
 elif [[ "$OSTYPE" == "linux-gnu" ]]; then
     OS="LINUX"
+
+    check_dependencies("$OSTYPE")
+
+    echo "$OS"
+    exit
 else
     echo "PUSH ROULETTE DOES NOT SUPPORT YOUR OPERATING SYSTEM"
 fi
